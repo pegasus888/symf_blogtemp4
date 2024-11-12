@@ -26,8 +26,8 @@ class PostsFixtures extends Fixture
         $manager->persist($category2);
 
         $category3 = new Categories();
-        $category3->setCategory('Others')
-            ->setSlug('miscellaneous')
+        $category3->setCategory('Miscellaneous')
+            ->setSlug('misc')
             ->setDisabled(0);
         $manager->persist($category3);
 
@@ -37,7 +37,7 @@ class PostsFixtures extends Fixture
             ->setEmail('author1@example.com')
             ->setPassword(password_hash('password123', PASSWORD_BCRYPT))
             ->setDate(new \DateTime()) // Use the current date
-            ->setRoles('ROLE_USER');
+            ->setRoles(['ROLE_USER']);
         $manager->persist($user1);
 
         $user2 = new Users();
@@ -45,16 +45,16 @@ class PostsFixtures extends Fixture
             ->setEmail('author2@example.com')
             ->setPassword(password_hash('password123', PASSWORD_BCRYPT))
             ->setDate(new \DateTime()) // Use the current date
-            ->setRoles('ROLE_USER');
+            ->setRoles(['ROLE_USER']);
         $manager->persist($user2);
 
         // Step 3: Create Posts
         $post1 = new Posts();
         $post1->setTitle('Whatever Title')
-            ->setContent('In this post, we will discuss bla bla bla...')
+            ->setContent('In this post, we will discuss whatever topic')
             ->setImage('/images/post2.jpg')
             ->setDate(new \DateTime())
-            ->setSlug('bla-bla')
+            ->setSlug('post1-slug')
             ->setUser($user2)
             ->setCategory($category3); // Assign Others category
         $manager->persist($post1);
