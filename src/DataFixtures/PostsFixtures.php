@@ -31,6 +31,12 @@ class PostsFixtures extends Fixture
             ->setDisabled(0);
         $manager->persist($category3);
 
+        $category4 = new Categories();
+        $category4->setCategory('English')
+            ->setSlug('eng')
+            ->setDisabled(0);
+        $manager->persist($category4);
+
         // Step 2: Create Users
         $user1 = new Users();
         $user1->setUsername('Author1')
