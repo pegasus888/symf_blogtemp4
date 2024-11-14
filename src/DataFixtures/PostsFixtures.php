@@ -58,7 +58,7 @@ class PostsFixtures extends Fixture
         $post1 = new Posts();
         $post1->setTitle('Whatever Title')
             ->setContent('In this post, we will discuss whatever topic')
-            ->setImage('/images/post2.jpg')
+            ->setImage('build/images/post2.ccfb40f5.jpg')
             ->setDate(new \DateTime())
             ->setSlug('post1-slug')
             ->setUser($user2)
@@ -69,7 +69,7 @@ class PostsFixtures extends Fixture
         $post2 = new Posts();
         $post2->setTitle('Maintaining Good Health')
             ->setContent('In this post, we will discuss various tips and strategies for maintaining good health and well-being.')
-            ->setImage('/images/post3.jpg')
+            ->setImage('build/images/post3.c8d83536.jpg')
             ->setDate(new \DateTime())
             ->setSlug('maintaining-good-health')
             ->setUser($user2)
@@ -79,7 +79,7 @@ class PostsFixtures extends Fixture
         $post3 = new Posts();
         $post3->setTitle('The Future of Technology')
             ->setContent('Technology is evolving at an unprecedented pace. In this post, we will explore the latest trends in tech.')
-            ->setImage('/images/cyborg-eye.jpg')
+            ->setImage('build/images/cyborg-eye.b3ffc298.png')
             ->setDate(new \DateTime())
             ->setSlug('the-future-of-technology')
             ->setUser($user1)
