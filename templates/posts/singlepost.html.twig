@@ -13,17 +13,20 @@
         <div class="py-10 text-center">
             <div class="inline-block sm:pt-1">
                 <h2 class="font-bold">
-                    Created by:
+                    Created by  {{ post.user.username }}
                 </h2>
 
                 <p class="text-sm text-gray-600">
-                    28-10-2024
+                    {# Eng format#}
+                    {{ post.date|date("Y-m-d") }}
+                    {# Fr format#}
+                    {# {{ post.date|date("d/m/Y") }}#}
                 </p>
             </div>
         </div>
 
         <img
-                src="{{ post.image }}"
+                src="{{ asset(post.image) }}"
                 class="rounded-xl w-full shadow-xl"
                 alt="Icon"
         />

@@ -24,14 +24,28 @@ class PostsController extends AbstractController
     }
 
     // Display all Posts
-    #[Route('/posts', name: 'app_posts')]
+    #[Route('/posts', name: 'app_posts', methods: ['GET'])]
     public function index(): Response
     {
         // findAll - SELECT * FROM posts;
         $posts = $this->postsRepository->findAll();
+        // dd($posts);
 
         return $this->render('posts/index.html.twig', [
             'posts' => $posts,
+        ]);
+    }
+
+    // Display a Single Post
+    #[Route('/posts/{id}', name: 'app_singlepost_posts', methods: ['GET'])]
+    public function singlepost($id): Response
+    {
+        // find- SELECT  FROM posts;
+        $post = $this->postsRepository->find($id);
+        // dd($posts);
+
+        return $this->render('posts/singlepost.html.twig', [
+            'post' => $post,
         ]);
     }
 }
