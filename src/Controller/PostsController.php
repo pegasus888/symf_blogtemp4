@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Posts;
 //use App\Form\PostFormType;
+use App\Form\PostFormType;
 use App\Repository\PostsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,48 @@ class PostsController extends AbstractController
 
         return $this->render('posts/index.html.twig', [
             'posts' => $posts,
+        ]);
+    }
+
+    // Create Post
+    #[Route('/posts/create', name: 'app_create_posts')]
+    public function create(Request $request): Response
+    {
+        $posts = new Posts();
+        $form = $this->createForm(PostFormType::class, $posts);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPosts = $form->getData();
+
+            //  dd($newPosts);
+            // exit;
+
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $newFileName = (uniqid()) . '.' . $image->guessExtension();
+
+                try {
+                    $image->move(
+                        $this->getParameter('kernel.project_dir') . '/public/uploads',
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                    return new Response($e->getMessage());
+                }
+
+                $newPosts->setImage('/uploads/' . $newFileName);
+            }
+
+            $this->em->persist($newPosts);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_posts');
+        }
+
+        return $this->render('posts/create.html.twig', [
+            // key => value -> method()
+            'form' => $form->createView(),
         ]);
     }
 
