@@ -37,7 +37,8 @@ class PostsController extends AbstractController
         ]);
     }
 
-    // Create Post
+
+    // Create a Post
     #[Route('/posts/create', name: 'app_create_posts')]
     public function create(Request $request): Response
     {
@@ -78,6 +79,82 @@ class PostsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+    // Edit a post
+    #[Route('/posts/edit/{id}', name: 'app_edit_posts')]
+    public function edit($id, Request $request): Response
+    {
+        // dd($id);
+        // exit;
+
+        // Db call
+        $post = $this->postsRepository->find($id);
+        $form = $this->createForm(PostFormType::class, $post);
+
+        $form->handleRequest($request);
+        $image = $form->get('image')->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($image) {
+                // Handle image upload
+                if ($post->getImage() !== null) {
+                    // Users are always guilty until proven innocent! ;-)
+                    if (file_exists(
+                        $this->getParameter('kernel.project_dir') . '/public/uploads/' . $post->getImage()
+                    )) {
+                        $this->getParameter('kernel.project_dir') . '/public/uploads/' . $post->getImage();
+                    }
+                    $newFileName = uniqid() . '.' . $image->guessExtension();
+
+                    try {
+                        $image->move(
+                            $this->getParameter('kernel.project_dir') . '/public/uploads',
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        return new Response($e->getMessage());
+                    }
+
+                    $post->setImage('/uploads/' . $newFileName);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('app_posts');
+                }
+
+            }else {
+                // dd("Ok");
+
+                $post->setTitle($form->get('title')->getData());
+                $post->setContent($form->get('content')->getData());
+                $post->setDate($form->get('date')->getData());
+                $post->setSlug($form->get('slug')->getData());
+                $post->setUser($form->get('user')->getData());
+                $post->setCategory($form->get('category')->getData());
+
+                $this->em->flush();
+                return $this->redirectToRoute('app_posts');
+            }
+        }
+
+        return $this->render('posts/edit.html.twig', [
+            'post' => $post,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    // Delete a post
+    #[Route('/posts/delete/{id}', name: 'app_delete_posts', methods: ['GET', 'DELETE'])]
+    public function delete($id): Response
+    {
+        $post = $this->postsRepository->find($id);
+        $this->em->remove($post);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_posts');
+    }
+
 
     // Display a Single Post
     #[Route('/posts/{id}', name: 'app_singlepost_posts', methods: ['GET'])]
