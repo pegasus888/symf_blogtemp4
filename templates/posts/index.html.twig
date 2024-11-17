@@ -15,18 +15,18 @@
         </div>
     </div>
 
-    {#    Create btn#}
-{#    {% if app.user %}#}
-        <div class="mx-auto w-4/5 my-8">
+    {# Create btn & show when logged in #}
+    {% if app.user %}
+            <div class="mx-auto w-4/5 my-8">
             <a
                     href="/posts/create"
                     class="uppercase border border-gray-500 text-lg py-4 px-6 rounded transition-all bg-gray-800 text-white hover:bg-white hover:text-gray-800">
                 Create New Post
             </a>
         </div>
-{#    {% endif %}#}
+    {% endif %}
 
-    {#    Post#}
+    {# Post #}
     <div class="md:grid lg:grid-cols-3 gap-20 w-4/5 mx-auto py-15 ">
         <!-- Review Item -->
         {% for post in posts %}
@@ -44,6 +44,7 @@
 
                 <span class="font-light text-gray-500 italic">
                 Created by  {{ post.user.username }}
+{#                Created by  {{ post.user.email }}#}
                 </span>
 
 

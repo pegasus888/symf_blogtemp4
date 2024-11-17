@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class PostFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -23,14 +24,16 @@ class PostFormType extends AbstractType
                     'class' => 'bg-transparent block border-b-2 w-full h-20 text-6xl outline-none',
                     'placeholder' => 'Title...',
                 ),
-                'label' => false
+                'label' => false,
+//                'required' => false
             ])
             ->add('content',TextareaType::class, [
                 'attr' => array(
                     'class' => 'bg-transparent block border-b-2 w-full h-60 text-6xl outline-none',
                     'placeholder' => 'Content...',
                 ),
-                'label' => false
+                'label' => false,
+//                'required' => false
             ])
             ->add('image', FileType::class, array(
                 'required' => false,
@@ -38,13 +41,15 @@ class PostFormType extends AbstractType
             ))
             ->add('date', null, [
                 'widget' => 'single_text',
+//                'required' => false
             ])
             ->add('slug', TextType::class, [
                 'attr' => array(
                     'class' => 'bg-transparent block border-b-2 w-full h-20 text-2xl outline-none',
                     'placeholder' => 'Slug...',
                 ),
-                'label' => false
+                'label' => false,
+//                'required' => false
             ])
             ->add('user', EntityType::class, [
                 'class' => Users::class,
@@ -53,6 +58,7 @@ class PostFormType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Categories::class,
                 'choice_label' => 'category',
+//                'required' => false
             ])
         ;
     }
